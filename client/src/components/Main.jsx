@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const Main = (props) => {
-    let history = useHistory();
+    // let history = useHistory();
 
     // STATE VARIABLES
     const [title, setTitle] = useState("");
@@ -39,7 +39,16 @@ const Main = (props) => {
         axios.post("http://localhost:8000/api/products", newProduct)
             .then(res => {
                 console.log(res.data)
-                history.push("/")
+                setProducts([...products, res.data])
+            })
+            .catch(err => console.log(err))
+    }
+
+    const deleteProduct = (deleteId) => {
+        axios.delete("http://localhost:8000/api/products/" + deleteId)
+            .then(res => {
+                console.log(res.data)
+                setProducts(products.filter( (product) => product._id !== deleteId))
             })
             .catch(err => console.log(err))
     }
@@ -71,10 +80,12 @@ const Main = (props) => {
                 products.map((product, idx) => {
                     return (
                         <div>
-                            <table class="table table-sm">
+                            <table class="table">
                                 <tr>
-                                    <td>
+                                    <td align="center">
                                         <Link to={"/products/" + product._id}>{product.title}</Link>
+                                        <Link to={"/products/update/" + product._id}><button class="btn btn-sm btn-secondary">Edit</button></Link>
+                                        <button class="btn btn-sm btn-danger" onClick={ () => deleteProduct(product._id)}>Delete</button>
                                     </td>
                                 </tr>
                             </table>

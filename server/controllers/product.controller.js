@@ -23,6 +23,20 @@ module.exports = {
     },
 
     // === UPDATE ===
-    
+    updateProduct : (req, res) => {
+        Product.findByIdAndUpdate(req.params.id, req.body, {
+            new: true, runValidators: true
+        })
+            .then((revisedProduct) => {
+                res.json(revisedProduct)
+            })
+            .catch(err => res.json({error: err}))
+    },
+
     // === DELETE ===
+    deleteProduct : (req, res) => {
+        Product.findByIdAndDelete(req.params.id)
+            .then(result => res.json(result))
+            .catch(err => res.json({error: err}))
+    }
 }

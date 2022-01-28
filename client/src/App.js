@@ -1,8 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
-import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
 import Main from "./components/Main";
 import ShowOne from './components/ShowOne';
+import Update from './components/Update';
 
 function App() {
   return (
@@ -16,7 +16,10 @@ function App() {
       <Route exact path="/products/:id">
         <ShowOne />
       </Route>
-      <Route path="/">
+      <Route exact path="/products/update/:id">
+        <Update />
+      </Route>
+      <Route exact path="/">
         <Main />
       </Route>
     </Switch>
